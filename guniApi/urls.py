@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls', namespace='authentication'))
+    path('auth/', include('authentication.urls', namespace='authentication')),
+    path('product/', include('products.urls', namespace='products'))
 ]
 
 # Serving media files in development
