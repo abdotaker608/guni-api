@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
+from django.core.mail import send_mail
+from django.conf import settings
+import jwt
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -22,3 +25,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    def email_user(self, subject, message, html_message):
+        send_mail(
+            subject,
+            message,
+            settings.SERVER_EMAIL,
+            [self.email],
+            html_message=html_message,
+            fail_silently=False
+        )
+
+    def get_jwt(self, exp=None):
+        payload = {'pk': self.pk, 'exp': exp}
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+        return token

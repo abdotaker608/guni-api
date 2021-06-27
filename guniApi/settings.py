@@ -61,7 +61,7 @@ ROOT_URLCONF = 'guniApi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.joinpath('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,6 +138,13 @@ STATIC_ROOT = BASE_DIR.joinpath('static')
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
+
+# Emails & SMTP configuration
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+SERVER_EMAIL = "GuNi Shop"
+
+# Front End configuration
+FRONT_END_HOST = 'http://localhost:3000'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
