@@ -4,6 +4,7 @@ from .managers import UserManager
 from django.core.mail import send_mail
 from django.conf import settings
 import jwt
+from datetime import datetime, timedelta
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -37,6 +38,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         )
 
     def get_jwt(self, exp=None):
-        payload = {'pk': self.pk, 'exp': exp}
+        payload = {'pk': self.pk, 'exp': datetime.now() + timedelta(seconds=exp)}
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
         return token
