@@ -16,7 +16,7 @@ product_categories = (
 class Product(models.Model):
     name = models.CharField(max_length=100)
     category = models.IntegerField(choices=product_categories)
-    original_price = models.FloatField()
+    original_price = models.FloatField(verbose_name='original')
     price = models.FloatField()
     image = models.ImageField(upload_to='products')
     description = models.TextField(null=True, blank=True)
@@ -27,8 +27,9 @@ class Product(models.Model):
 
     class Meta:
         indexes = [
-            GinIndex(fields=('name', 'category'))
+            GinIndex(fields=('name', ))
         ]
+        ordering = ('-created', )
 
     def __str__(self):
         return self.name
