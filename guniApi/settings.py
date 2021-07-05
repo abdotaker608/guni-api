@@ -146,6 +146,9 @@ SERVER_EMAIL = "GuNi Shop"
 # Front End configuration
 FRONT_END_HOST = 'http://localhost:3000'
 
+# Stripe Payment Gateway
+STRIPE_API_SECRET = 'sk_test_51Ga48iKHEH3gVt5uMvbwrEuDEnlpNi2QtL4L80lFm6wCbMvrCV3pjLsoB1c0qc7dAcdp2laaieRUv9d1egvWx1VN00enrzNBbs'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

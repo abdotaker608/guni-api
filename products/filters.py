@@ -1,6 +1,5 @@
 from rest_framework.filters import BaseFilterBackend
 from django.contrib.postgres.search import TrigramSimilarity
-from django.db.models.functions import Greatest
 
 
 class AdvancedProductsFilter(BaseFilterBackend):

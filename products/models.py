@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.indexes import GinIndex
 from .managers import ProductManager
+from authentication.models import User
 
 # Valid product categories
 product_categories = (
@@ -13,7 +14,7 @@ product_categories = (
 )
 
 
-class Product(models.Model):
+class ProductInterface(models.Model):
     name = models.CharField(max_length=100)
     category = models.IntegerField(choices=product_categories)
     original_price = models.FloatField(verbose_name='original')
@@ -26,6 +27,7 @@ class Product(models.Model):
     manager = ProductManager()
 
     class Meta:
+        abstract = True
         indexes = [
             GinIndex(fields=('name', ))
         ]
@@ -33,3 +35,22 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Product(ProductInterface):
+    pass
+
+
+class PurchasedProduct(ProductInterface):
+    qty = models.IntegerField()
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, related_name='orders', on_delete=models.DO_NOTHING)
+    intent_id = models.CharField(max_length=500)
+    products = models.ManyToManyField(PurchasedProduct, related_name='orders')
+    total_price = models.FloatField()
+    created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.pk)
