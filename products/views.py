@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from django.conf import settings
 import stripe
 
+stripe.api_key = settings.STRIPE_API_SECRET
+
 
 class ProductView(generics.GenericAPIView, mixins.ListModelMixin):
     serializer_class = ProductSerializer
@@ -42,7 +44,6 @@ class ProductFilterView(generics.GenericAPIView, mixins.ListModelMixin):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_payment_intent(request):
-    stripe.api_key = settings.STRIPE_API_SECRET
     data = request.data
     total_price = int(float(data['total_price']) * 100)
     payment_intent = stripe.PaymentIntent.create(
