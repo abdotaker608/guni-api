@@ -148,6 +148,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media files
 MEDIA_URL = '/guni/'
 MEDIA_ROOT = BASE_DIR.joinpath('guni')
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Cloudinary Storage
 CLOUDINARY_STORAGE = {
