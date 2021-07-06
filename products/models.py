@@ -53,7 +53,7 @@ order_status = (
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, related_name='orders', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     intent_id = models.CharField(max_length=500)
     products = models.ManyToManyField(PurchasedProduct, related_name='orders')
     total_price = models.FloatField()
