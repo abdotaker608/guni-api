@@ -72,3 +72,19 @@ def create_order(request):
         order.products.add(purchased_product)
     serializer = OrderSerializer(order)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class OrdersView(generics.GenericAPIView, mixins.ListModelMixin):
+
+    serializer_class = OrderSerializer
+    authentication_classes = [TokenAuthentication]
+    pagination_class = SimplePaginator
+    pagination_class.page_size = 20
+
+    def get(self, request):
+        return self.list(request)
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get('user')
+        queryset = Order.objects.filter(user__id=user_id)
+        return queryset

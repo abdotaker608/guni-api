@@ -10,7 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('pk', 'get_user', 'created')
-    search_fields = ('user__first_name', 'user__last_name')
+    search_fields = ('pk', 'user__pk', 'user__first_name', 'user__last_name')
 
     def get_user(self, obj):
         return obj.user.full_name()

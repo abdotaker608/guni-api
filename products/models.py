@@ -45,12 +45,23 @@ class PurchasedProduct(ProductInterface):
     qty = models.IntegerField()
 
 
+# Valid order statuses
+order_status = (
+    (0, 'awaiting'),
+    (1, 'delivered')
+)
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders', on_delete=models.DO_NOTHING)
     intent_id = models.CharField(max_length=500)
     products = models.ManyToManyField(PurchasedProduct, related_name='orders')
     total_price = models.FloatField()
-    created = models.DateTimeField(auto_now=True)
+    status = models.IntegerField(choices=order_status, default=0)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.pk)
+
+    class Meta:
+        ordering = ('-created', )
