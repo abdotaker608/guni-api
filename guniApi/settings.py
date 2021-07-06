@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
@@ -95,11 +96,14 @@ DATABASES = {
     }
 }
 
+prod_db = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(prod_db)
+
 # Custom User Model
 AUTH_USER_MODEL = 'authentication.User'
 
 # CORS Settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = os.getenv('ALLOWED_CORS', '').split(',')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -154,13 +158,19 @@ CLOUDINARY_STORAGE = {
 
 # Emails & SMTP configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = True if os.getenv('USE_TLS', None) is not None else False
+EMAIL_USE_SSL = True if os.getenv('USE_SSL', None) is not None else False
 SERVER_EMAIL = "GuNi Shop"
 
 # Front End configuration
-FRONT_END_HOST = 'http://localhost:3000'
+FRONT_END_HOST = os.getenv('FRONT_END_HOST')
 
 # Stripe Payment Gateway
-STRIPE_API_SECRET = 'sk_test_51Ga48iKHEH3gVt5uMvbwrEuDEnlpNi2QtL4L80lFm6wCbMvrCV3pjLsoB1c0qc7dAcdp2laaieRUv9d1egvWx1VN00enrzNBbs'
+STRIPE_API_SECRET = os.getenv('STRIPE_API_SECRET')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
