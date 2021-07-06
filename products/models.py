@@ -8,7 +8,7 @@ product_categories = (
     (0, 'Clothes'),
     (1, 'Accessories'),
     (2, 'Cooking Utilities'),
-    (3, 'Electric Appliances'),
+    (3, 'Electronics'),
     (4, 'Gaming'),
     (5, 'Sports')
 )
